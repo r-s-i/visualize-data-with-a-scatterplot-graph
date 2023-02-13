@@ -65,8 +65,12 @@ fetch(
       .enter()
       .append("circle")
       .attr("class", "dot")
-      .attr("data-xvalue", (d) => d.Time)
-      .attr("data-yvalue", (d) => d.Year);
+      .attr("data-xvalue", (d) => d.Year)
+      .attr("data-yvalue", (d) => {
+        const timeArr = d.Time.split(":");
+        return new Date(0, 0, 0, 0, timeArr[0], timeArr[1]);
+      });
+
     d.forEach((e) => {
       console.log(e);
     });
