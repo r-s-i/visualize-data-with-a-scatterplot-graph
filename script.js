@@ -52,3 +52,20 @@ svg
   )
   .attr("id", "y-axis")
   .call(yAxis);
+
+fetch(
+  "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json"
+)
+  .then((r) => r.json())
+  .then((d) => {
+    // Adding the dots:
+    svg
+      .selectAll("circle")
+      .data(d)
+      .enter()
+      .append("circle")
+      .attr("class", "dot");
+    d.forEach((e) => {
+      console.log(e);
+    });
+  });
