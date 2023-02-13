@@ -1,9 +1,10 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // For production:
-const prodValueX = 20;
-const prodValueY = 400;
+const prodValueX = 50;
+const prodValueY = 410;
+const prodOffset = 20;
 const prodValueWidth = 300;
-const prodValueHeight = 300;
+const prodValueHeight = 390;
 
 // Adding title:
 d3.select("body")
@@ -24,10 +25,30 @@ const svg = d3
   .attr("height", height);
 
 // Adding x-axis:
-const xScale = d3.scaleLinear().range([0, prodValueWidth]).domain([1993, 2016]);
+const xScale = d3
+  .scaleTime()
+  .range([0, prodValueWidth])
+  .domain([new Date(1993, 0, 1), new Date(2016, 0, 1)]);
 const xAxis = d3.axisBottom(xScale).ticks(5);
+
 svg
   .append("g")
   .attr("transform", `translate(${prodValueX}, ${prodValueY})`)
   .attr("id", "x-axis")
   .call(xAxis);
+
+const yScale = d3
+  .scaleTime()
+  .range([0, prodValueHeight])
+  .domain([new Date(0, 0, 0, 0, 35, 0, 0), new Date(0, 0, 0, 0, 40, 0, 0)]);
+
+const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
+
+svg
+  .append("g")
+  .attr(
+    "transform",
+    `translate(${prodValueX}, ${prodValueY - prodValueHeight})`
+  )
+  .attr("id", "y-axis")
+  .call(yAxis);
