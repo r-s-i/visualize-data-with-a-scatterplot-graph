@@ -64,7 +64,9 @@ fetch(
       .data(d)
       .enter()
       .append("circle")
-      .attr("class", "dot");
+      .attr("class", "dot")
+      .attr("data-xvalue", (d) => d.Time)
+      .attr("data-yvalue", (d) => d.Year);
     d.forEach((e) => {
       console.log(e);
     });
