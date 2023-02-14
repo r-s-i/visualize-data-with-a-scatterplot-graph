@@ -73,8 +73,14 @@ fetch(
       })
       .attr("r", 2)
       .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + prodValueX)
-      .attr("cy", (d) =>
-        yScale(new Date(0, 0, 0, 0, d.Time.split(":")[0], d.Time.split(":")[1]))
+      .attr(
+        "cy",
+        (d) =>
+          yScale(
+            new Date(0, 0, 0, 0, d.Time.split(":")[0], d.Time.split(":")[1])
+          ) +
+          prodValueY -
+          prodValueHeight
       )
       .style("fill", "red");
   });
