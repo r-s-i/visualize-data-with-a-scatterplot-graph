@@ -65,13 +65,16 @@ fetch(
       .enter()
       .append("circle")
       .attr("class", "dot")
+      .attr("id", (d, i) => i)
       .attr("data-xvalue", (d) => d.Year)
       .attr("data-yvalue", (d) => {
         const timeArr = d.Time.split(":");
         return new Date(0, 0, 0, 0, timeArr[0], timeArr[1]);
-      });
-
-    d.forEach((e) => {
-      console.log(e);
-    });
+      })
+      .attr("r", 2)
+      .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + prodValueX)
+      .attr("cy", (d) =>
+        yScale(new Date(0, 0, 0, 0, d.Time.split(":")[0], d.Time.split(":")[1]))
+      )
+      .style("fill", "red");
   });
