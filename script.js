@@ -40,7 +40,7 @@ svg
 const yScale = d3
   .scaleTime()
   .range([0, prodValueHeight])
-  .domain([new Date(0, 0, 0, 0, 35, 0, 0), new Date(0, 0, 0, 0, 40, 0, 0)]);
+  .domain([new Date(0, 0, 0, 0, 36, 0, 0), new Date(0, 0, 0, 0, 40, 0, 0)]);
 
 const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
 
