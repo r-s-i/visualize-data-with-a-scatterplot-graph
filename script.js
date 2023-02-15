@@ -83,4 +83,13 @@ fetch(
           prodValueHeight
       )
       .style("fill", "red");
+
+    // Adding legend:
+    svg
+      .append("text")
+      .attr("id", "legend")
+      .text("descriptive text")
+      .style("fill", "white")
+      .attr("x", prodValueWidth)
+      .attr("y", prodValueHeight / 2);
   });
