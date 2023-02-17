@@ -91,7 +91,9 @@ fetch(
           prodValueY -
           prodValueHeight
       )
-      .style("fill", "red")
+      .style("fill", (d) => {
+        return d.Doping ? "red" : "rgb(0, 184, 0)";
+      })
       .on("mouseover", (d) => {
         // Tooltip style:
         d.target.style.fill = "white";
@@ -119,7 +121,9 @@ fetch(
           );
       })
       .on("mouseout", (d) => {
-        d.target.style.fill = "red";
+        d.target.style.fill = d.target.__data__.Doping
+          ? "red"
+          : "rgb(0, 184, 0)";
         tooltip.attr("data-year", d.Year).style("visibility", "hidden");
       });
 
