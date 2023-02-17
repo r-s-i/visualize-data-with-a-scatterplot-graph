@@ -1,10 +1,12 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-// For production:
-const prodValueX = 50;
-const prodValueY = 410;
-const prodOffset = 20;
-const prodValueWidth = 300;
-const prodValueHeight = 390;
+// Variable setup:
+let width = d3.select("body").node().getBoundingClientRect().width;
+let height = d3.select("body").node().getBoundingClientRect().height;
+let prodValueX = width * 0.2;
+let prodValueY = height * 0.7;
+let prodOffset = width * 0.1;
+let prodValueWidth = width * 0.6;
+let prodValueHeight = prodValueY - prodOffset;
 
 // Adding title:
 d3.select("body")
@@ -15,9 +17,6 @@ d3.select("body")
   .attr("id", "title");
 
 // Adding Canvas:
-let width = d3.select("body").node().getBoundingClientRect().width;
-let height = d3.select("body").node().getBoundingClientRect().height;
-
 const svg = d3
   .select("body")
   .append("svg")
@@ -117,7 +116,7 @@ fetch(
           )
           .style(
             "top",
-            yScale(new Date(0, 0, 0, 0, timeArr[0], timeArr[1])) + +60 + "px"
+            yScale(new Date(0, 0, 0, 0, timeArr[0], timeArr[1])) + 60 + "px"
           );
       })
       .on("mouseout", (d) => {
@@ -130,13 +129,60 @@ fetch(
     // Adding legend:
     svg
       .append("foreignObject")
-      .attr("width", 200)
-      .attr("height", 100)
+      .attr("width", width * 0.2)
+      .attr("height", height * 0.3)
       .attr("id", "legend")
       .html(
         "Riders with no doping allegations <div class='color-box green'></div> <br> Riders with doping allegations <div class='color-box red'></div>"
       )
       .style("fill", "white")
-      .attr("x", prodValueWidth)
+      .attr("x", prodValueWidth - prodOffset)
       .attr("y", prodValueHeight / 2);
   });
+
+function update() {
+  width = d3.select("body").node().getBoundingClientRect().width;
+  height = d3.select("body").node().getBoundingClientRect().height;
+  prodValueX = width * 0.2;
+  prodValueY = height * 0.7;
+  prodOffset = width * 0.1;
+  prodValueWidth = width * 0.6;
+  prodValueHeight = prodValueY - prodOffset;
+
+  xScale.range([0, prodValueWidth]);
+  yScale.range([0, prodValueHeight]);
+
+  d3.select("#x-axis")
+    .attr("transform", `translate(${prodValueX}, ${prodValueY})`)
+    .call(xAxis);
+
+  d3.select("#y-axis")
+    .attr(
+      "transform",
+      `translate(${prodValueX}, ${prodValueY - prodValueHeight})`
+    )
+    .call(yAxis);
+
+  svg.attr("width", width).attr("height", height);
+
+  svg
+    .selectAll("circle")
+    .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + prodValueX)
+    .attr(
+      "cy",
+      (d) =>
+        yScale(
+          new Date(0, 0, 0, 0, d.Time.split(":")[0], d.Time.split(":")[1])
+        ) + prodOffset
+    );
+
+  // Legend:
+  svg
+    .select("#legend")
+    .attr("x", width - width * 0.3)
+    .attr("y", prodValueHeight / 2)
+    .attr("width", width * 0.2)
+    .attr("height", height * 0.3);
+}
+
+window.addEventListener("resize", update);
