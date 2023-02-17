@@ -53,6 +53,15 @@ svg
   .attr("id", "y-axis")
   .call(yAxis);
 
+// Adding tooltip:
+let tooltip = d3
+  .select("body")
+  .append("section")
+  .attr("id", "tooltip")
+  .style("visibility", "hidden")
+  .text("tooltip")
+  .style("fill", "white");
+
 fetch(
   "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json"
 )
@@ -71,7 +80,7 @@ fetch(
         const timeArr = d.Time.split(":");
         return new Date(0, 0, 0, 0, timeArr[0], timeArr[1]);
       })
-      .attr("r", 2)
+      .attr("r", 4)
       .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + prodValueX)
       .attr(
         "cy",
@@ -82,13 +91,47 @@ fetch(
           prodValueY -
           prodValueHeight
       )
-      .style("fill", "red");
+      .style("fill", "red")
+      .on("mouseover", (d) => {
+        // Tooltip style:
+        d.target.style.fill = "white";
+        tooltip
+          .attr("data-year", d.target.__data__.Year)
+          .style("visibility", "visible");
+        // Tooltip content:
+        tooltip.html(
+          `Year: ${d.target.__data__.Year} <br> Name: ${
+            d.target.__data__.Name
+          } <br> Nationality: ${d.target.__data__.Nationality} <br> Time: ${
+            d.target.__data__.Time
+          } <br> ${d.target.__data__.Doping ? d.target.__data__.Doping : ""}`
+        );
+        // Tooltip position:
+        const timeArr = d.target.__data__.Time.split(":");
+        tooltip
+          .style(
+            "left",
+            xScale(new Date(d.target.__data__.Year, 0, 0)) + 60 + "px"
+          )
+          .style(
+            "top",
+            yScale(new Date(0, 0, 0, 0, timeArr[0], timeArr[1])) + +60 + "px"
+          );
+      })
+      .on("mouseout", (d) => {
+        d.target.style.fill = "red";
+        tooltip.attr("data-year", d.Year).style("visibility", "hidden");
+      });
 
     // Adding legend:
     svg
-      .append("text")
+      .append("foreignObject")
+      .attr("width", 200)
+      .attr("height", 100)
       .attr("id", "legend")
-      .text("descriptive text")
+      .html(
+        "Riders with no doping allegations <div class='color-box green'></div> <br> Riders with doping allegations <div class='color-box red'></div>"
+      )
       .style("fill", "white")
       .attr("x", prodValueWidth)
       .attr("y", prodValueHeight / 2);
