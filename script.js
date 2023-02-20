@@ -2,11 +2,11 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Variable setup:
 let width = d3.select("body").node().getBoundingClientRect().width * 0.9;
 let height = d3.select("body").node().getBoundingClientRect().height * 0.7;
-let prodValueX = width * 0.2;
-let prodValueY = height * 0.85;
-let prodOffset = width * 0.1;
-let prodValueWidth = width * 0.6;
-let prodValueHeight = prodValueY - prodOffset;
+let valueX = width * 0.2;
+let valueY = height * 0.85;
+let offset = width * 0.1;
+let valueWidth = width * 0.6;
+let valueHeight = valueY - offset;
 
 // Adding title:
 d3.select("body")
@@ -26,29 +26,26 @@ const svg = d3
 // Adding x-axis:
 const xScale = d3
   .scaleTime()
-  .range([0, prodValueWidth])
+  .range([0, valueWidth])
   .domain([new Date(1993, 0, 1), new Date(2016, 0, 1)]);
 const xAxis = d3.axisBottom(xScale).ticks(5);
 
 svg
   .append("g")
-  .attr("transform", `translate(${prodValueX}, ${prodValueY})`)
+  .attr("transform", `translate(${valueX}, ${valueY})`)
   .attr("id", "x-axis")
   .call(xAxis);
 
 const yScale = d3
   .scaleTime()
-  .range([0, prodValueHeight])
+  .range([0, valueHeight])
   .domain([new Date(0, 0, 0, 0, 36, 0, 0), new Date(0, 0, 0, 0, 40, 0, 0)]);
 
 const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S"));
 
 svg
   .append("g")
-  .attr(
-    "transform",
-    `translate(${prodValueX}, ${prodValueY - prodValueHeight})`
-  )
+  .attr("transform", `translate(${valueX}, ${valueY - valueHeight})`)
   .attr("id", "y-axis")
   .call(yAxis);
 
@@ -80,15 +77,15 @@ fetch(
         return new Date(0, 0, 0, 0, timeArr[0], timeArr[1]);
       })
       .attr("r", "0.4rem")
-      .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + prodValueX)
+      .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + valueX)
       .attr(
         "cy",
         (d) =>
           yScale(
             new Date(0, 0, 0, 0, d.Time.split(":")[0], d.Time.split(":")[1])
           ) +
-          prodValueY -
-          prodValueHeight
+          valueY -
+          valueHeight
       )
       .style("fill", (d) => {
         return d.Doping ? "red" : "rgb(0, 184, 0)";
@@ -120,7 +117,7 @@ fetch(
       .append("foreignObject")
       .attr("id", "legend")
       .attr("x", width - width * 0.4)
-      .attr("y", prodValueHeight * 0.33)
+      .attr("y", valueHeight * 0.33)
       .attr("width", width * 0.3)
       .attr("height", height * 0.4)
       .html(
@@ -132,44 +129,41 @@ fetch(
 function update() {
   width = d3.select("body").node().getBoundingClientRect().width * 0.9;
   height = d3.select("body").node().getBoundingClientRect().height * 0.7;
-  prodValueX = width * 0.2;
-  prodValueY = height * 0.85;
-  prodOffset = width * 0.1;
-  prodValueWidth = width * 0.6;
-  prodValueHeight = prodValueY - prodOffset;
+  valueX = width * 0.2;
+  valueY = height * 0.85;
+  offset = width * 0.1;
+  valueWidth = width * 0.6;
+  valueHeight = valueY - offset;
 
-  xScale.range([0, prodValueWidth]);
-  yScale.range([0, prodValueHeight]);
+  xScale.range([0, valueWidth]);
+  yScale.range([0, valueHeight]);
 
   d3.select("#x-axis")
-    .attr("transform", `translate(${prodValueX}, ${prodValueY})`)
+    .attr("transform", `translate(${valueX}, ${valueY})`)
     .call(xAxis);
 
   d3.select("#y-axis")
-    .attr(
-      "transform",
-      `translate(${prodValueX}, ${prodValueY - prodValueHeight})`
-    )
+    .attr("transform", `translate(${valueX}, ${valueY - valueHeight})`)
     .call(yAxis);
 
   svg.attr("width", width).attr("height", height);
 
   svg
     .selectAll("circle")
-    .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + prodValueX)
+    .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + valueX)
     .attr(
       "cy",
       (d) =>
         yScale(
           new Date(0, 0, 0, 0, d.Time.split(":")[0], d.Time.split(":")[1])
-        ) + prodOffset
+        ) + offset
     );
 
   // Legend:
   svg
     .select("#legend")
     .attr("x", width - width * 0.4)
-    .attr("y", prodValueHeight * 0.33)
+    .attr("y", valueHeight * 0.33)
     .attr("width", width * 0.3)
     .attr("height", height * 0.4);
 }
