@@ -1,9 +1,9 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Variable setup:
-let width = d3.select("body").node().getBoundingClientRect().width;
-let height = d3.select("body").node().getBoundingClientRect().height;
+let width = d3.select("body").node().getBoundingClientRect().width * 0.9;
+let height = d3.select("body").node().getBoundingClientRect().height * 0.7;
 let prodValueX = width * 0.2;
-let prodValueY = height * 0.7;
+let prodValueY = height * 0.85;
 let prodOffset = width * 0.1;
 let prodValueWidth = width * 0.6;
 let prodValueHeight = prodValueY - prodOffset;
@@ -79,7 +79,7 @@ fetch(
         const timeArr = d.Time.split(":");
         return new Date(0, 0, 0, 0, timeArr[0], timeArr[1]);
       })
-      .attr("r", 4)
+      .attr("r", "0.4rem")
       .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + prodValueX)
       .attr(
         "cy",
@@ -107,17 +107,6 @@ fetch(
             d.target.__data__.Time
           } <br> ${d.target.__data__.Doping ? d.target.__data__.Doping : ""}`
         );
-        // Tooltip position:
-        const timeArr = d.target.__data__.Time.split(":");
-        tooltip
-          .style(
-            "left",
-            xScale(new Date(d.target.__data__.Year, 0, 0)) + 60 + "px"
-          )
-          .style(
-            "top",
-            yScale(new Date(0, 0, 0, 0, timeArr[0], timeArr[1])) + 60 + "px"
-          );
       })
       .on("mouseout", (d) => {
         d.target.style.fill = d.target.__data__.Doping
@@ -129,22 +118,22 @@ fetch(
     // Adding legend:
     svg
       .append("foreignObject")
-      .attr("width", width * 0.2)
-      .attr("height", height * 0.3)
       .attr("id", "legend")
+      .attr("x", width - width * 0.4)
+      .attr("y", prodValueHeight * 0.33)
+      .attr("width", width * 0.3)
+      .attr("height", height * 0.4)
       .html(
-        "Riders with no doping allegations <div class='color-box green'></div> <br> Riders with doping allegations <div class='color-box red'></div>"
+        "Without doping allegations <div class='color-box green'></div> <br>With doping allegations <div class='color-box red'></div>"
       )
-      .style("fill", "white")
-      .attr("x", prodValueWidth - prodOffset)
-      .attr("y", prodValueHeight / 2);
+      .style("fill", "white");
   });
 
 function update() {
-  width = d3.select("body").node().getBoundingClientRect().width;
-  height = d3.select("body").node().getBoundingClientRect().height;
+  width = d3.select("body").node().getBoundingClientRect().width * 0.9;
+  height = d3.select("body").node().getBoundingClientRect().height * 0.7;
   prodValueX = width * 0.2;
-  prodValueY = height * 0.7;
+  prodValueY = height * 0.85;
   prodOffset = width * 0.1;
   prodValueWidth = width * 0.6;
   prodValueHeight = prodValueY - prodOffset;
@@ -179,10 +168,10 @@ function update() {
   // Legend:
   svg
     .select("#legend")
-    .attr("x", width - width * 0.3)
-    .attr("y", prodValueHeight / 2)
-    .attr("width", width * 0.2)
-    .attr("height", height * 0.3);
+    .attr("x", width - width * 0.4)
+    .attr("y", prodValueHeight * 0.33)
+    .attr("width", width * 0.3)
+    .attr("height", height * 0.4);
 }
 
 window.addEventListener("resize", update);
