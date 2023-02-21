@@ -33,14 +33,13 @@ svg {
 /*Tooltip:*/
 #tooltip {
   position: absolute;
+  left: 5vw;
   font-size: 1rem;
   background: white;
   color: black;
   padding: 0.5rem;
   text-align: left;
-  width: 30vw;
-  height: 15vh;
-  left: 35vw;
+  width: 90vw;
   top: 78vh;
 }
 
