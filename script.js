@@ -1,4 +1,3 @@
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Variable setup:
 let width = d3.select("body").node().getBoundingClientRect().width * 0.9;
 let height = d3.select("body").node().getBoundingClientRect().height * 0.7;
