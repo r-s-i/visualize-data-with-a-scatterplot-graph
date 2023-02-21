@@ -1,6 +1,6 @@
 # 35 Quickest Alpe d'Huez Climbs - Athletes with and without Doping Allegations
 
-This is my answer to freeCodeCamp's Visualize Data with a Scatterplot Graph project. It shows data from 1994 to 2015 of the 35 fastest climbs of Alpe d'Huez. With hovering over the dots, a tooltip with details appears. One can also tap the dots on a touch device, although it's more clunky.
+This is my answer to freeCodeCamp's Visualize Data with a Scatterplot Graph project. It shows data from 1994 to 2015 of the 35 fastest climbs of Alpe d'Huez. With hovering over the dots, a tooltip with details appear. One can also tap the dots on a touch device, although it's more clunky.
 
 ## Getting Started
 
