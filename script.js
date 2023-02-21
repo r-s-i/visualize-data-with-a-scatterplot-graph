@@ -11,7 +11,7 @@ let valueHeight = valueY - offset;
 d3.select("body")
   .append("h1")
   .text(
-    "35 Quickest Alpe d'Huez Climbs - Athletes with and without Doping Allegations"
+    "35 Quickest Alpe d'Huez Climbs - Athletes With and Without Doping Allegations"
   )
   .attr("id", "title");
 
