@@ -76,8 +76,13 @@ fetch(
         const timeArr = d.Time.split(":");
         return new Date(0, 0, 0, 0, timeArr[0], timeArr[1]);
       })
-      .attr("r", "0.4rem")
-      .attr("cx", (d) => xScale(new Date(d.Year, 0, 0)) + valueX)
+      .attr("r", 6)
+      .attr("cx", (d) => {
+        if (d.Name === "Santos Gonzalez") {
+          return xScale(new Date(d.Year, 0, 0)) + valueX + 6;
+        }
+        return xScale(new Date(d.Year, 0, 0)) + valueX;
+      })
       .attr(
         "cy",
         (d) =>
