@@ -11,7 +11,7 @@ let valueHeight = valueY - offset;
 d3.select("body")
   .append("h1")
   .text(
-    "35 Quickest Alpe d'Huez Climbs - Athletes With and Without Doping Allegations"
+    "34 Quickest Alpe d'Huez Climbs - Athletes With and Without Doping Allegations"
   )
   .attr("id", "title");
 
@@ -63,6 +63,7 @@ fetch(
   .then((r) => r.json())
   .then((d) => {
     // Adding the dots:
+    d = d.filter((e) => e.Name !== "Jose Azevedo"); // No allegations found
     svg
       .selectAll("circle")
       .data(d)
