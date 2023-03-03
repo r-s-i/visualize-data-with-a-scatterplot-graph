@@ -78,8 +78,15 @@ fetch(
       })
       .attr("r", 6)
       .attr("cx", (d) => {
+        // for 2 datapoint with same x and y:
         if (d.Name === "Santos Gonzalez") {
           return xScale(new Date(d.Year, 0, 0)) + valueX + 6;
+        }
+        // for 3 datapoint with same x and y:
+        if (d.Name === "Michael Rasmussen") {
+          return xScale(new Date(d.Year, 0, 0)) + valueX + 6;
+        } else if (d.Name === "Pietro Caucchioli") {
+          return xScale(new Date(d.Year, 0, 0)) + valueX + 12;
         }
         return xScale(new Date(d.Year, 0, 0)) + valueX;
       })
